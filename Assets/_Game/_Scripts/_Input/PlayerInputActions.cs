@@ -37,9 +37,27 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""7d6a8096-c90c-469c-96b5-f366e1eab5f1"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""JoyLook"",
+                    ""type"": ""Value"",
+                    ""id"": ""6d20bf4e-4ebe-4589-a87a-93e128e1c5a4"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Fire"",
                     ""type"": ""Button"",
-                    ""id"": ""275bf140-7a62-446d-9dd6-e59824d45f04"",
+                    ""id"": ""2865fc00-f782-466f-b1c9-428f3d41dc66"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -60,12 +78,62 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""73b28581-e786-452f-b688-09e2b33aa129"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""id"": ""3f493c74-620f-41b8-a10e-a97a066a4653"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f940cd88-d0f8-4631-ac63-354d56e71eed"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""JoyLook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""047efd48-9c76-42a5-8763-a36654fed25e"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""pFightMap"",
+            ""id"": ""56470511-2c8a-4c0e-b864-f7a3902eb2fc"",
+            ""actions"": [
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""b52dd77a-6284-489b-9efa-71358ff8af72"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""88fded71-1e73-4150-a1e5-24e53809ba01"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -77,7 +145,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // pActionMap
         m_pActionMap = asset.FindActionMap("pActionMap", throwIfNotFound: true);
         m_pActionMap_MouseLook = m_pActionMap.FindAction("MouseLook", throwIfNotFound: true);
+        m_pActionMap_Move = m_pActionMap.FindAction("Move", throwIfNotFound: true);
+        m_pActionMap_JoyLook = m_pActionMap.FindAction("JoyLook", throwIfNotFound: true);
         m_pActionMap_Fire = m_pActionMap.FindAction("Fire", throwIfNotFound: true);
+        // pFightMap
+        m_pFightMap = asset.FindActionMap("pFightMap", throwIfNotFound: true);
+        m_pFightMap_Newaction = m_pFightMap.FindAction("New action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -140,12 +213,16 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_pActionMap;
     private List<IPActionMapActions> m_PActionMapActionsCallbackInterfaces = new List<IPActionMapActions>();
     private readonly InputAction m_pActionMap_MouseLook;
+    private readonly InputAction m_pActionMap_Move;
+    private readonly InputAction m_pActionMap_JoyLook;
     private readonly InputAction m_pActionMap_Fire;
     public struct PActionMapActions
     {
         private @PlayerInputActions m_Wrapper;
         public PActionMapActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @MouseLook => m_Wrapper.m_pActionMap_MouseLook;
+        public InputAction @Move => m_Wrapper.m_pActionMap_Move;
+        public InputAction @JoyLook => m_Wrapper.m_pActionMap_JoyLook;
         public InputAction @Fire => m_Wrapper.m_pActionMap_Fire;
         public InputActionMap Get() { return m_Wrapper.m_pActionMap; }
         public void Enable() { Get().Enable(); }
@@ -159,6 +236,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @MouseLook.started += instance.OnMouseLook;
             @MouseLook.performed += instance.OnMouseLook;
             @MouseLook.canceled += instance.OnMouseLook;
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
+            @JoyLook.started += instance.OnJoyLook;
+            @JoyLook.performed += instance.OnJoyLook;
+            @JoyLook.canceled += instance.OnJoyLook;
             @Fire.started += instance.OnFire;
             @Fire.performed += instance.OnFire;
             @Fire.canceled += instance.OnFire;
@@ -169,6 +252,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @MouseLook.started -= instance.OnMouseLook;
             @MouseLook.performed -= instance.OnMouseLook;
             @MouseLook.canceled -= instance.OnMouseLook;
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
+            @JoyLook.started -= instance.OnJoyLook;
+            @JoyLook.performed -= instance.OnJoyLook;
+            @JoyLook.canceled -= instance.OnJoyLook;
             @Fire.started -= instance.OnFire;
             @Fire.performed -= instance.OnFire;
             @Fire.canceled -= instance.OnFire;
@@ -189,9 +278,61 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public PActionMapActions @pActionMap => new PActionMapActions(this);
+
+    // pFightMap
+    private readonly InputActionMap m_pFightMap;
+    private List<IPFightMapActions> m_PFightMapActionsCallbackInterfaces = new List<IPFightMapActions>();
+    private readonly InputAction m_pFightMap_Newaction;
+    public struct PFightMapActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public PFightMapActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Newaction => m_Wrapper.m_pFightMap_Newaction;
+        public InputActionMap Get() { return m_Wrapper.m_pFightMap; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PFightMapActions set) { return set.Get(); }
+        public void AddCallbacks(IPFightMapActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PFightMapActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PFightMapActionsCallbackInterfaces.Add(instance);
+            @Newaction.started += instance.OnNewaction;
+            @Newaction.performed += instance.OnNewaction;
+            @Newaction.canceled += instance.OnNewaction;
+        }
+
+        private void UnregisterCallbacks(IPFightMapActions instance)
+        {
+            @Newaction.started -= instance.OnNewaction;
+            @Newaction.performed -= instance.OnNewaction;
+            @Newaction.canceled -= instance.OnNewaction;
+        }
+
+        public void RemoveCallbacks(IPFightMapActions instance)
+        {
+            if (m_Wrapper.m_PFightMapActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPFightMapActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PFightMapActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PFightMapActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PFightMapActions @pFightMap => new PFightMapActions(this);
     public interface IPActionMapActions
     {
         void OnMouseLook(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
+        void OnJoyLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+    }
+    public interface IPFightMapActions
+    {
+        void OnNewaction(InputAction.CallbackContext context);
     }
 }

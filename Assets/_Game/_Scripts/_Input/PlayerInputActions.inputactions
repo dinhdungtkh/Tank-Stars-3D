@@ -15,9 +15,27 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "7d6a8096-c90c-469c-96b5-f366e1eab5f1",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "JoyLook",
+                    "type": "Value",
+                    "id": "6d20bf4e-4ebe-4589-a87a-93e128e1c5a4",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Fire",
                     "type": "Button",
-                    "id": "275bf140-7a62-446d-9dd6-e59824d45f04",
+                    "id": "2865fc00-f782-466f-b1c9-428f3d41dc66",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -38,12 +56,62 @@
                 },
                 {
                     "name": "",
-                    "id": "73b28581-e786-452f-b688-09e2b33aa129",
-                    "path": "<Mouse>/leftButton",
+                    "id": "3f493c74-620f-41b8-a10e-a97a066a4653",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f940cd88-d0f8-4631-ac63-354d56e71eed",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "JoyLook",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "047efd48-9c76-42a5-8763-a36654fed25e",
+                    "path": "<Gamepad>/rightStick/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "pFightMap",
+            "id": "56470511-2c8a-4c0e-b864-f7a3902eb2fc",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "b52dd77a-6284-489b-9efa-71358ff8af72",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "88fded71-1e73-4150-a1e5-24e53809ba01",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
