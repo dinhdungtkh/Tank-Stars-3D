@@ -16,7 +16,7 @@ public class TrajectoryPredictor : MonoBehaviour
     [SerializeField, Range(1.05f, 2f), Tooltip("The raycast overlap between points in the trajectory, this is a multiplier of the length between points. 2 = twice as long")]
     float rayOverlap = 1.1f;
     [SerializeField]
-  
+    private Vector3 lastLinePosition;
     #endregion
 
     private void Start()
@@ -52,12 +52,14 @@ public class TrajectoryPredictor : MonoBehaviour
                 MoveHitMarker(hit);
                 break;
             }
-
+          
             //If nothing is hit, continue rendering the arc without a visual marker
             hitMarker.gameObject.SetActive(false);
             position = nextPosition;
+            lastLinePosition = nextPosition;
             UpdateLineRender(maxPoints, (i, position)); //Unneccesary to set count here, but not harmful
         }
+  
     }
     /// <summary>
     /// Allows us to set line count and an induvidual position at the same time
@@ -91,5 +93,14 @@ public class TrajectoryPredictor : MonoBehaviour
     {
         trajectoryLine.enabled = visible;
         hitMarker.gameObject.SetActive(visible);
+    }
+
+    public void SetLastLinePosition(Vector3 position)
+    {
+        lastLinePosition = position;
+    }
+    public Vector3 GetLastLinePosition()
+    {
+        return lastLinePosition;
     }
 }
